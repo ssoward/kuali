@@ -15,8 +15,6 @@ public class Elevator {
     public ArrayList<Integer> nextStop = new ArrayList<>();
     private int occupied;
 
-    public Elevator(){}
-
     public Elevator(int currentFloor, Boolean doorOpen, int id, int trips, int floorsPassed, Boolean maintenance){
         this.currentFloor = currentFloor;
         this.doorOpen     = doorOpen;

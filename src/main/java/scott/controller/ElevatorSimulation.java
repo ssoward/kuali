@@ -7,6 +7,7 @@ import scott.utils.ElevatorUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -74,6 +75,7 @@ public class ElevatorSimulation {
     }
 
     private void reportFloorMove(Elevator e){
+        e.floorsPassed = e.floorsPassed ++;
         MoveReport moveReport = new MoveReport(e, Arrays.asList(ReportType.MOVED_FROM_FLOOR)); moveReports.add(moveReport);
     }
 
@@ -86,16 +88,19 @@ public class ElevatorSimulation {
         //Move the closest elevator to requesting floor
         makeTrip(e, destinationFloor);
 
-        while(e.nextStop.size()!=0){
-
-            makeTrip(e, destinationFloor);
-            e.nextStop.remove()
+        for (Iterator<Integer> iterator = e.nextStop.iterator(); iterator.hasNext();) {
+            Integer nextStop = iterator.next();
+            e.setOccupied(nextStop);
+            iterator.remove();
+            makeTrip(e, nextStop);
         }
         //No current action/destination: mark unoccupied
+        e.maintenance = e.trips>100;
         setUnoccupied(e);
     }
 
     private void makeTrip(Elevator e, int destinationFloor) {
+        e.trips = e.trips++;
         move(e, destinationFloor);
         //Open elevator door, log event
         reportDoor(e, true);
