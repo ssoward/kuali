@@ -1,5 +1,7 @@
 package scott.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by ssoward on 5/18/17.
  */
@@ -10,6 +12,7 @@ public class Elevator {
     public int trips = 0;
     public int floorsPassed = 0;
     public Boolean maintenance;
+    public ArrayList<Integer> nextStop = new ArrayList<>();
     private int occupied;
 
     public Elevator(){}

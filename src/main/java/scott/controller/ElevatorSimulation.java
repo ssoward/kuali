@@ -37,14 +37,19 @@ public class ElevatorSimulation {
         Elevator closest = null;
         for(Elevator e: elevators){
             closest = closest != null ? closest: e;
-            if(!e.maintenance && e.getOccupied() == -1){
-                if(e.currentFloor == callingFloor){
+            //check to see if an occupied elevator will "pass that floor on its way"
+            if(!e.maintenance ){
+                if(e.currentFloor == callingFloor || callingFloor < e.getOccupied()){
                     return e;
                 }
-                if(ElevatorUtils.getDistance(e.currentFloor, callingFloor) < ElevatorUtils.getDistance(closest.currentFloor, callingFloor)){
+                if(e.getOccupied() == -1 && ElevatorUtils.getDistance(e.currentFloor, callingFloor) < ElevatorUtils.getDistance(closest.currentFloor, callingFloor)){
                     closest = e;
                 }
             }
+        }
+        //check the case where all elevators were occupied and none passed by destination, add to queue
+        if(closest.getOccupied()>-1){
+            closest.nextStop.add(callingFloor);
         }
         return closest;
     }
@@ -74,5 +79,33 @@ public class ElevatorSimulation {
 
     public void setUnoccupied(Elevator e) {
         e.setOccupied(-1);
+    }
+
+    public void requestElevator(int callingFloor, int destinationFloor) {
+        Elevator e = getClosestElevator(callingFloor);
+        //Move the closest elevator to requesting floor
+        makeTrip(e, destinationFloor);
+
+        while(e.nextStop.size()!=0){
+
+            makeTrip(e, destinationFloor);
+            e.nextStop.remove()
+        }
+        //No current action/destination: mark unoccupied
+        setUnoccupied(e);
+    }
+
+    private void makeTrip(Elevator e, int destinationFloor) {
+        move(e, destinationFloor);
+        //Open elevator door, log event
+        reportDoor(e, true);
+        //Close elevator door, log event
+        reportDoor(e, false);
+        //Set destination floor, mark occupied
+        requestFloor(e, 5);
+        //Open elevator door, log event
+        reportDoor(e, true);
+        //Close elevator door, log event
+        reportDoor(e, false);
     }
 }
