@@ -1,8 +1,12 @@
-package scott.model;
+package scott.controller;
 
+import scott.model.Elevator;
+import scott.model.MoveReport;
+import scott.model.ReportType;
 import scott.utils.ElevatorUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,6 +14,7 @@ import java.util.List;
  */
 public class ElevatorSimulation {
     List<Elevator> elevators;
+    List<MoveReport> moveReports = new ArrayList<>();
     int floors = 1;
 
     public ElevatorSimulation(){}
@@ -43,7 +48,24 @@ public class ElevatorSimulation {
         return closest;
     }
 
-    public void requestFloor(Elevator e, int i) {
+    public void requestFloor(Elevator e, int destinationFloor) {
 
+
+    }
+
+    public void move(Elevator e, int toFloor) {
+       if(toFloor > e.currentFloor){
+           while(toFloor > e.currentFloor){
+               reportFloorMove(e);
+           }
+       }
+    }
+     private void reportDoor(Elevator e, boolean isOpen){
+        MoveReport moveReport = new MoveReport(e, Arrays.asList(isOpen ? ReportType.OPENED_DOOR : ReportType.CLOSED_DOOR));
+        moveReports.add(moveReport);
+    }
+
+    private void reportFloorMove(Elevator e){
+        MoveReport moveReport = new MoveReport(e, Arrays.asList(ReportType.MOVED_FROM_FLOOR)); moveReports.add(moveReport);
     }
 }

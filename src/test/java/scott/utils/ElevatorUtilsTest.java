@@ -13,6 +13,7 @@ public class ElevatorUtilsTest {
 
     @Test
     public void getDistanceTest() throws Exception {
-        ElevatorUtils.getDistance()
+        assertTrue(ElevatorUtils.getDistance(10, 3) == 7);
+        assertTrue(ElevatorUtils.getDistance(1, 3) == 2);
     }
 }
