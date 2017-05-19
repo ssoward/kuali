@@ -1,5 +1,7 @@
 package scott.model;
 
+import scott.utils.ElevatorUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,22 @@ public class ElevatorSimulation {
     }
 
     public Elevator getClosestElevator(int callingFloor) {
+        Elevator closest = null;
+        for(Elevator e: elevators){
+            closest = closest != null ? closest: e;
+            if(!e.maintenance){
+                if(e.currentFloor == callingFloor){
+                    return e;
+                }
+                if(ElevatorUtils.getDistance(e.currentFloor, callingFloor) < ElevatorUtils.getDistance(closest.currentFloor, callingFloor)){
+                    closest = e;
+                }
+            }
+        }
+        return closest;
+    }
+
+    public void requestFloor(Elevator e, int i) {
 
     }
 }

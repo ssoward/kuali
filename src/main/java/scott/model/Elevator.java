@@ -4,13 +4,13 @@ package scott.model;
  * Created by ssoward on 5/18/17.
  */
 public class Elevator {
-    int currentFloor = 0;
-    Boolean doorOpen = false;
-    int maxFloor = 0;
-    int id = 0;
-    int trips = 0;
-    int floorsPassed = 0;
-    Boolean maintenance;
+    public int currentFloor = 0;
+    public Boolean doorOpen = false;
+    public int maxFloor = 0;
+    public int id = 0;
+    public int trips = 0;
+    public int floorsPassed = 0;
+    public Boolean maintenance;
 
     public Elevator(){}
 
